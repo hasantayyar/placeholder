@@ -288,7 +288,14 @@ class Placeholder {
     function render()
     {
         if ($this->width <= $this->maxWidth && $this->height <= $this->maxHeight) {
-            $cachePath = $this->cacheDir . '/' . $this->width . '_' . $this->height . '_' . (strlen($this->backgroundColor) === 3 ? $this->backgroundColor[0] . $this->backgroundColor[0] . $this->backgroundColor[1] . $this->backgroundColor[1] . $this->backgroundColor[2] . $this->backgroundColor[2] : $this->backgroundColor) . '_' . (strlen($this->textColor) === 3 ? $this->textColor[0] . $this->textColor[0] . $this->textColor[1] . $this->textColor[1] . $this->textColor[2] . $this->textColor[2] : $this->textColor) . '.png';
+            $cachePath = $this->cacheDir . '/' . $this->width . '_' . 
+            	$this->height . '_' . (strlen($this->backgroundColor) === 3 ? $this->backgroundColor[0] . 
+	            	$this->backgroundColor[0] . $this->backgroundColor[1] . 
+	            	$this->backgroundColor[1] . $this->backgroundColor[2] . 
+	            	$this->backgroundColor[2] : $this->backgroundColor) . '_' . 
+            	(strlen($this->textColor) === 3 ? $this->textColor[0] . $this->textColor[0] . 
+            	$this->textColor[1] . $this->textColor[1] . $this->textColor[2] . 
+            	$this->textColor[2] : $this->textColor) . '_'.md5($this->text).'.png';
             header('Content-type: image/png');
             header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + $this->expires));
             header('Cache-Control: public');
