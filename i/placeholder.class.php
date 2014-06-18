@@ -9,11 +9,12 @@ if (strpos(__FILE__, $_SERVER['PHP_SELF'])) { header('HTTP/1.0 403 Forbidden'); 
  */
 class Placeholder {
     private $backgroundColor, $cache, $cacheDir, $expires, $font, $height, $maxHeight, $maxWidth, $textColor, $width;
-
+    public $text;
     function __construct()
     {
         $this->backgroundColor = 'dddddd';
         $this->cache           = false;
+	$this->text 	       = FALSE;
         $this->cacheDir        = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'cache';
         $this->expires         = 604800;
         $this->font            = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Oswald-Regular.ttf';
@@ -48,6 +49,17 @@ class Placeholder {
     {
         return $this->backgroundColor;
     }
+
+
+    function getText()
+    {
+        return $this->text;
+    }
+
+   function setText($text){
+	$this->text = $text;
+	return  $this;
+   }
 
     /**
      * Sets text color
@@ -312,9 +324,9 @@ class Placeholder {
         // convert textColor hex to RGB values
         list($textR, $textG, $textB) = $this->hexToDec($this->textColor);
         $textColor = imagecolorallocate($image, $textR, $textG, $textB);
-        $text = $this->width . 'x' . $this->height;
+        $text = $this->text?$this->text : ($this->width . 'x' . $this->height);
         imagefilledrectangle($image, 0, 0, $this->width, $this->height, $backgroundColor);
-        $fontSize = 26;
+        $fontSize = strlen( $text )>8?12:26;
         $textBoundingBox = imagettfbbox($fontSize, 0, $this->font, $text);
         // decrease the default font size until it fits nicely within the image
         while (((($this->width - ($textBoundingBox[2] - $textBoundingBox[0])) < 10) || (($this->height - ($textBoundingBox[1] - $textBoundingBox[7])) < 10)) && ($fontSize > 1)) {
